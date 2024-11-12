@@ -225,12 +225,18 @@ const App = () => {
 
   }
   const getUserDetails = (id) => {
-    return data.users?.filter(i => i.id === id)
-  }
+    return data.users?.filter(i => i.id === id) || []; // Return an empty array if no match is found
+  };
+  
   const getNameAb = (id) => {
-    const users = data.users?.filter(i => i.id === id)
-    return users[0].name.match(/(\b\S)?/g).join("").toUpperCase()
-  }
+    const users = data.users?.filter(i => i.id === id);
+    if (users && users[0] && users[0].name) {
+      return users[0].name.match(/(\b\S)?/g).join("").toUpperCase();
+    } else {
+      return "N/A"; // Return a default or fallback value if `name` is missing
+    }
+  };
+  
   const geticonByStatus = (status) => {
     const selectedStatus = statuses.filter(i => i.id === status)
     return selectedStatus[0].icon
@@ -267,7 +273,7 @@ const App = () => {
       {/* body */}
       <div onClick={() => setShowNav(false)} style={{ height: "90vh", overflowY: "scroll", padding: "10px", backgroundColor: "#f3f9ff" }}>
         <div style={{ width: "100vw", display: "grid", paddingLeft: "50px", justifyContent: "space-evenly", gridTemplateColumns: "20vw 20vw 20vw 20vw 20vw", gap: "30px" }}>
-          {groupingLevel.map(eachPriority => (
+          {groupingLevel?.map(eachPriority => (
             <div style={{ display: "flex", flexDirection: "column", }}>
               <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
                 <div style={{ display: "flex",}}>
